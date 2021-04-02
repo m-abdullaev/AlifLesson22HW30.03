@@ -1,9 +1,11 @@
 ﻿@model AlifLesson22HW30._03.Models.Category
 
 @{
-    ViewBag.Title = "Categories";
+    ViewBag.Titele = "Categories";
 }
-<h2>Create Category</h2>
+
+<h2>Edit Categories</h2>
+
 <hr />
 <div>
     <a asp-action="Index">
@@ -14,26 +16,26 @@
 </div>
 <div class="row">
     <div class="col-md-1"></div>
+
     <div class="col-md-4">
-        <h4>Categories</h4>
-        <form asp-action="Create">
+        <img src="https://www.flaticon.com/svg/vstatic/svg/1160/1160515.svg?token=exp=1617271323~hmac=9b9bf5e17d63e4709c27030361a857ac" width="300" alt="Alternate Text" />
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Category Name</label>
                 <input asp-for="Name" class="form-control form-control-lg" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary btn-block btn-lg" />
+                <input type="submit" value="Сохранить" class="btn btn-warning btn-lg btn-block" />
             </div>
         </form>
     </div>
-    <div class="col-md-2"></div>
-    <div class="col-md-3">
-        <img src="https://www.flaticon.com/svg/vstatic/svg/2674/2674505.svg?token=exp=1617269396~hmac=308a5f9c55654b879700f2808ed0ff9d" width="300" alt="Alternate Text" />
-    </div>
+    <div class="col-md-1"></div>
 </div>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

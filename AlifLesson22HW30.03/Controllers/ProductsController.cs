@@ -1,6 +1,7 @@
 ﻿using AlifLesson22HW30._03.DataContext;
 using AlifLesson22HW30._03.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,12 @@ namespace AlifLesson22HW30._03.Controllers
         {
             this.context = context;
         }
-        public async Task <IActionResult> Index()
+        public async Task<IActionResult> Index(string category)
         {
-            return View(await context.Products.ToListAsync());
+            if (category == null)
+                return View(await context.Products.ToListAsync());
+            else
+                return View(await context.Products.Where(p => p.Category.Name.Equals(category)).ToListAsync());
         }
         public async Task<IActionResult> Details(int? id)
         {
@@ -38,11 +42,13 @@ namespace AlifLesson22HW30._03.Controllers
         }
         public IActionResult Create()
         {
+            ViewData["CategoryId"] = new SelectList(context.Categories, "Id", "Name");
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProductName")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,CategoryId,ProductName,ProductPrice,InsertedDate,UpdatedDate")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -50,11 +56,13 @@ namespace AlifLesson22HW30._03.Controllers
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(context.Categories, "Id", "Name", product.CategoryId);
             return View(product);
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
+            
             if (id == null)
             {
                 return NotFound();
@@ -64,11 +72,12 @@ namespace AlifLesson22HW30._03.Controllers
             {
                 return NotFound();
             }
+            ViewData["CategoryId"] = new SelectList(context.Categories, "Id", "Name");
             return View(product);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductName")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,ProductName,ProductPrice,InsertedDate,UpdatedDate")] Product product)
         {
             if (id != product.Id)
             {
@@ -94,6 +103,7 @@ namespace AlifLesson22HW30._03.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryId"] = new SelectList(context.Categories, "Id", "Name", product.CategoryId);
             return View(product);
         }
         public async Task<IActionResult> Delete(int? id)

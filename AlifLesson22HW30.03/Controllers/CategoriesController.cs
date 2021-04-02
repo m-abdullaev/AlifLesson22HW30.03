@@ -44,7 +44,7 @@ namespace AlifLesson22HW30._03.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProductName")] Category category)
+        public async Task<IActionResult> Create([Bind("Id","Name")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +70,7 @@ namespace AlifLesson22HW30._03.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductName")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id","Name")] Category category)
         {
             if (id != category.Id)
             {
